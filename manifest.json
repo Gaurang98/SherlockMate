@@ -10,6 +10,20 @@
     "https://www.chess.com/*",
     "https://lichess.org/*",
     "https://api.groq.com/*"
-  ]
+  ],
+    "background": {
+    "service_worker": "background.js"
+  },
 
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.chess.com/*",
+        "https://lichess.org/*"
+      ],
+      "js": ["content/inject.js"],
+      "css": ["ui/panel.css"],
+      "run_at": "document_idle"
+    }
+  ]
 }
