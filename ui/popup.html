@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"/><title>SherlockMate</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{width:300px;background:#0c0c11;color:#fff;font-family:Inter,sans-serif;font-size:13px}
+.hdr{padding:18px 18px 14px;border-bottom:1px solid rgba(245,197,66,.12);background:linear-gradient(90deg,rgba(245,197,66,.09),transparent)}
+.logo{display:flex;align-items:center;gap:9px;margin-bottom:3px}.logo-i{font-size:22px;filter:drop-shadow(0 0 8px rgba(245,197,66,.6))}.logo-t{font-family:Georgia,serif;font-size:17px;font-weight:700;color:#f5c542}.tag{font-size:10px;color:rgba(255,255,255,.28);margin-left:31px}
+.body{padding:14px 18px;display:flex;flex-direction:column;gap:11px}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:11px 13px}
+.row{display:flex;align-items:center;gap:7px;margin-bottom:3px}.dot{width:8px;height:8px;border-radius:50%}.g{background:#4ade80;box-shadow:0 0 6px #4ade80}.lbl{font-size:12px;font-weight:500;color:rgba(255,255,255,.8)}.sub{font-size:10px;color:rgba(255,255,255,.3);margin-left:15px}
+.sites{display:flex;gap:6px}.pill{flex:1;padding:7px;border-radius:7px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);text-align:center;font-size:11px;color:rgba(255,255,255,.38);display:flex;align-items:center;justify-content:center;gap:5px}.pill.on{border-color:rgba(245,197,66,.28);color:rgba(245,197,66,.8);background:rgba(245,197,66,.05)}.pdot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.ktitle{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.32);margin-bottom:7px;display:flex;align-items:center;gap:6px}.badge{font-size:9px;padding:2px 6px;border-radius:4px;font-weight:600}.badge.saved{background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.22)}.badge.no{background:rgba(245,197,66,.1);color:#f5c542;border:1px solid rgba(245,197,66,.2)}
+.kmask{font-family:monospace;font-size:11px;color:rgba(255,255,255,.5);background:rgba(255,255,255,.04);border-radius:5px;padding:5px 8px;margin-bottom:8px;word-break:break-all}
+.kbtns{display:flex;gap:6px}.kbtn{flex:1;padding:6px 9px;border-radius:6px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.05);color:rgba(255,255,255,.5);font-size:11px;cursor:pointer;transition:all .18s;text-align:center}.kbtn:hover{background:rgba(255,255,255,.1);color:#fff}.kbtn.d:hover{border-color:rgba(248,113,113,.4);color:#f87171;background:rgba(248,113,113,.07)}
+.feats{display:flex;flex-direction:column;gap:6px}.feat{display:flex;align-items:center;gap:9px;font-size:11px;color:rgba(255,255,255,.4)}.fi{width:22px;height:22px;background:rgba(255,255,255,.04);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.groq{background:rgba(245,197,66,.05);border:1px solid rgba(245,197,66,.14);border-radius:7px;padding:10px 12px;font-size:10px;color:rgba(245,197,66,.7);line-height:1.6}
+.nomsg{font-size:10px;color:rgba(255,255,255,.3);line-height:1.55}
+.ftr{padding:9px 18px 14px;text-align:center;font-size:10px;color:rgba(255,255,255,.1);border-top:1px solid rgba(255,255,255,.05)}
+</style></head><body>
+<div class="hdr"><div class="logo"><span class="logo-i">🔍</span><span class="logo-t">SherlockMate</span></div><div class="tag">Your silent chess intelligence</div></div>
+<div class="body">
+  <div class="card"><div class="row"><div class="dot g"></div><span class="lbl">Extension Active</span></div><div class="sub">Panel auto-appears on chess sites</div></div>
+  <div class="sites"><div class="pill" id="pc"><span class="pdot"></span>chess.com</div><div class="pill" id="pl"><span class="pdot"></span>lichess.org</div></div>
+  <div class="card">
+    <div class="ktitle">Groq API Key (Free) <span class="badge no" id="badge">Not saved</span></div>
+    <div id="ksaved" style="display:none"><div class="kmask" id="kmask"></div><div class="kbtns"><button class="kbtn d" id="kclr">🗑 Remove Key</button></div></div>
+    <div id="kmiss"><p class="nomsg">Enter your free Groq key (gsk_…) in the panel on any chess page. Encrypted and remembered forever.</p></div>
+  </div>
+  <div class="feats">
+    <div class="feat"><div class="fi">♟</div><span>Top 3 moves via Stockfish Online API</span></div>
+    <div class="feat"><div class="fi">♞</div><span>SAN notation with piece symbols (♞ Nf6)</span></div>
+    <div class="feat"><div class="fi">✕</div><span>Capture ✕ · Promotion · # Mate indicators</span></div>
+    <div class="feat"><div class="fi">🧠</div><span>Groq Llama 3.3 explains moves — free</span></div>
+    <div class="feat"><div class="fi">🔀</div><span>Toggle suggestions ON / OFF instantly</span></div>
+    <div class="feat"><div class="fi">🔒</div><span>AES-256-GCM encrypted key storage</span></div>
+  </div>
+  <div class="groq">🆓 Get your free Groq key at <strong>console.groq.com</strong> — no credit card, 2 minutes.</div>
+</div>
+<div class="ftr">SherlockMate v2.0 — Your move. Your choice.</div>
+<script>
+chrome.tabs.query({active:true,currentWindow:true},t=>{const u=t[0]?.url||'';if(u.includes('chess.com'))document.getElementById('pc').classList.add('on');if(u.includes('lichess.org'))document.getElementById('pl').classList.add('on');});
+chrome.runtime.sendMessage({type:'HAS_KEY'},r=>{if(r?.exists){chrome.runtime.sendMessage({type:'MASKED_KEY'},r2=>{document.getElementById('badge').textContent='🔒 Encrypted';document.getElementById('badge').className='badge saved';document.getElementById('ksaved').style.display='block';document.getElementById('kmiss').style.display='none';document.getElementById('kmask').textContent=r2?.masked||'••••••••••••••••••••';});}});
+document.getElementById('kclr').addEventListener('click',()=>{if(!confirm('Remove your saved Groq API key?'))return;chrome.runtime.sendMessage({type:'CLEAR_KEY'},()=>{document.getElementById('badge').textContent='Not saved';document.getElementById('badge').className='badge no';document.getElementById('ksaved').style.display='none';document.getElementById('kmiss').style.display='block';});});
+</script></body></html>
