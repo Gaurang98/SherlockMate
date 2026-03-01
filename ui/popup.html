@@ -36,7 +36,7 @@
   </div>
   <div class="groq">🆓 Get your free Groq key at <strong>console.groq.com</strong> — no credit card, 2 minutes.</div>
 </div>
-<div class="ftr">SherlockMate v2.0 — Your move. Your choice.</div>
+<div class="ftr">SherlockMate — Your move. Your choice.</div>
 <script>
 chrome.tabs.query({active:true,currentWindow:true},t=>{const u=t[0]?.url||'';if(u.includes('chess.com'))document.getElementById('pc').classList.add('on');if(u.includes('lichess.org'))document.getElementById('pl').classList.add('on');});
 chrome.runtime.sendMessage({type:'HAS_KEY'},r=>{if(r?.exists){chrome.runtime.sendMessage({type:'MASKED_KEY'},r2=>{document.getElementById('badge').textContent='🔒 Encrypted';document.getElementById('badge').className='badge saved';document.getElementById('ksaved').style.display='block';document.getElementById('kmiss').style.display='none';document.getElementById('kmask').textContent=r2?.masked||'••••••••••••••••••••';});}});
