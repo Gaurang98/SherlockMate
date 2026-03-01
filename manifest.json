@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "SherlockMate",
+  "version": "2.0.0",
+  "description": "Real-time chess analysis. Top 3 best moves instantly.",
+
+  "permissions": ["storage"],
+
+  "host_permissions": [
+    "https://www.chess.com/*",
+    "https://lichess.org/*",
+    "https://api.groq.com/*"
+  ]
+
+}
