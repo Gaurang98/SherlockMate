@@ -25,5 +25,14 @@
       "css": ["ui/panel.css"],
       "run_at": "document_idle"
     }
-  ]
+  ],
+
+  "action": {
+    "default_popup": "ui/popup.html",
+    "default_icon": {
+      "16":  "icons/icon16.png",
+      "48":  "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  }
 }
