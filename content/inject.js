@@ -329,6 +329,24 @@ function keySaved(){g('sm-keyhint').textContent='🔒 saved';g('sm-keyhint').sty
 function keyCleared(){g('sm-keyhint').textContent='not saved';g('sm-keyhint').style.color='';g('sm-keyinput').placeholder='gsk_…';g('sm-keyinput').value='';g('sm-savebtn').style.display='inline-flex';g('sm-delbtn').style.display='none';keyMsg('Key removed','warn');}
 function keyMsg(t,type){const el=g('sm-keymsg');el.textContent=t;el.className='km-'+type;setTimeout(()=>{el.textContent='';el.className='';},3500);}
 function setStatus(type,text){const d=g('sm-dot'),s=g('sm-stxt');if(d)d.className='dot-'+type;if(s)s.textContent=text;}
+function renderCard(rank,move){
+  const sym=document.getElementById(`smc-sym-${rank}`),san=document.getElementById(`smc-san-${rank}`),
+        tags=document.getElementById(`smc-tags-${rank}`),sc=document.getElementById(`smc-sc-${rank}`),card=document.getElementById(`smc-${rank}`);
+  if(!card||!sym||!san||!tags||!sc)return console.warn(`[SM] Missing DOM elements for card ${rank}`);
+  const s=move.san||{};
+  if(!s.symbol&&!s.san)return console.warn(`[SM] Invalid move data for rank ${rank}`,move);
+  sym.textContent=s.symbol||'';san.textContent=s.san||move.uci;
+  let t='';
+  if(s.isCapture)t+='<span class="tx">✕</span>';
+  if(s.promo)t+=`<span class="tp">=${s.promo}</span>`;
+  if(move.scoreType==='mate'&&move.scoreRaw>0)t+='<span class="tm"># Mate</span>';
+  tags.innerHTML=t;sc.textContent=move.score;sc.className='smc-score '+(move.scoreRaw>=0?'sp':'sn');
+  card.classList.add('act');card.style.animation='none';void card.offsetWidth;card.style.animation='smIn .25s ease forwards';
+}
+function clearCards(){[1,2,3].forEach(i=>{const card=document.getElementById(`smc-${i}`);if(card)card.classList.remove('act');['san','sym','sc','tags','expl'].forEach(k=>{const el=document.getElementById(`smc-${k}-${i}`);if(el){if(k==='tags')el.innerHTML='';else el.textContent=k==='san'?'—':'';}});});}
+const g=id=>document.getElementById(id);
+const show=(id,v)=>{const e=g(id);if(e)e.style.display=v?'flex':'none';};
+
 
 
 function boot(){createPanel();watchBoard();}
