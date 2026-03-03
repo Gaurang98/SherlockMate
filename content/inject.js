@@ -285,5 +285,28 @@ function createPanel(){
   checkKey();
 }
 
+function bindAll(){
+  g('sm-min').onclick=()=>{show('sm-panel',false);show('sm-bubble',true);};
+  g('sm-bubble').onclick=()=>{show('sm-panel',true);show('sm-bubble',false);};
+  const tb=g('sm-toggle');
+  tb.onclick=()=>{
+    state.enabled=!state.enabled;tb.textContent=state.enabled?'ON':'OFF';tb.dataset.on=state.enabled?'1':'0';
+    if(state.enabled){state.lastFen=null;const f=readFen();if(f)analyze(f);}
+    else{clearCards();setStatus('idle','Suggestions off');}
+  };
+  g('sm-eyebtn').onclick=()=>{const i=g('sm-keyinput');i.type=i.type==='password'?'text':'password';};
+  g('sm-savebtn').onclick=()=>{
+    const k=g('sm-keyinput').value.trim();
+    if(!k.startsWith('gsk_')){keyMsg('Key must start with gsk_','err');return;}
+    chrome.runtime.sendMessage({type:'SAVE_KEY',key:k},r=>{if(r&&r.ok)keySaved();else keyMsg('Failed','err');});
+  };
+  g('sm-delbtn').onclick=()=>chrome.runtime.sendMessage({type:'CLEAR_KEY'},()=>keyCleared());
+  g('sm-depth').oninput=()=>{state.depth=parseInt(g('sm-depth').value);g('sm-depthval').textContent=g('sm-depth').value;state.lastFen=null;};
+  drag(g('sm-panel'),g('sm-header'));
+}
 
+
+
+function boot(){createPanel();watchBoard();}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',boot):setTimeout(boot,500);
 })();
