@@ -305,6 +305,30 @@ function bindAll(){
   drag(g('sm-panel'),g('sm-header'));
 }
 
+function drag(el,handle){
+  let sx,sy,sl,st;
+  const go=(cx,cy)=>{el.style.right='auto';el.style.left=Math.max(0,Math.min(window.innerWidth-el.offsetWidth,sl+cx-sx))+'px';el.style.top=Math.max(0,Math.min(window.innerHeight-el.offsetHeight,st+cy-sy))+'px';};
+  handle.addEventListener('mousedown',e=>{
+    if(['BUTTON','INPUT'].includes(e.target.tagName))return;
+    e.preventDefault();const r=el.getBoundingClientRect();sx=e.clientX;sy=e.clientY;sl=r.left;st=r.top;el.style.transition='none';
+    const mm=e2=>go(e2.clientX,e2.clientY);
+    const mu=()=>{el.style.transition='';removeEventListener('mousemove',mm);removeEventListener('mouseup',mu);};
+    addEventListener('mousemove',mm);addEventListener('mouseup',mu);
+  });
+  handle.addEventListener('touchstart',e=>{
+    if(['BUTTON','INPUT'].includes(e.target.tagName))return;
+    const t=e.touches[0],r=el.getBoundingClientRect();sx=t.clientX;sy=t.clientY;sl=r.left;st=r.top;
+    const tm=e2=>{const t2=e2.touches[0];go(t2.clientX,t2.clientY);};
+    const tu=()=>{handle.removeEventListener('touchmove',tm);handle.removeEventListener('touchend',tu);};
+    handle.addEventListener('touchmove',tm,{passive:true});handle.addEventListener('touchend',tu);
+  },{passive:true});
+}
+
+function checkKey(){chrome.runtime.sendMessage({type:'HAS_KEY'},r=>{if(r&&r.exists)keySaved();});}
+function keySaved(){g('sm-keyhint').textContent='🔒 saved';g('sm-keyhint').style.color='#4ade80';g('sm-keyinput').placeholder='••••••••••••';g('sm-keyinput').value='';g('sm-savebtn').style.display='none';g('sm-delbtn').style.display='inline-flex';keyMsg('Key loaded ✓','ok');}
+function keyCleared(){g('sm-keyhint').textContent='not saved';g('sm-keyhint').style.color='';g('sm-keyinput').placeholder='gsk_…';g('sm-keyinput').value='';g('sm-savebtn').style.display='inline-flex';g('sm-delbtn').style.display='none';keyMsg('Key removed','warn');}
+function keyMsg(t,type){const el=g('sm-keymsg');el.textContent=t;el.className='km-'+type;setTimeout(()=>{el.textContent='';el.className='';},3500);}
+function setStatus(type,text){const d=g('sm-dot'),s=g('sm-stxt');if(d)d.className='dot-'+type;if(s)s.textContent=text;}
 
 
 function boot(){createPanel();watchBoard();}
