@@ -347,7 +347,22 @@ function clearCards(){[1,2,3].forEach(i=>{const card=document.getElementById(`sm
 const g=id=>document.getElementById(id);
 const show=(id,v)=>{const e=g(id);if(e)e.style.display=v?'flex':'none';};
 
-
+function watchBoard(){
+  let deb=null;
+  const check=()=>{
+    if(!state.enabled)return;
+    const fen=readFen();
+    console.log('[SM] watchBoard check - FEN:', fen, 'lastFen:', state.lastFen, 'enabled:', state.enabled);
+    if(fen&&fen!==state.lastFen&&vFen(fen)){
+      console.log('[SM] FEN change detected, calling analyze');
+      analyze(fen);
+    }
+  };
+  const tgt=document.querySelector('cg-board,chess-board,.board,#board')||document.body;
+  console.log('[SM] watchBoard target element:', tgt);
+  new MutationObserver(()=>{console.log('[SM] Board mutation detected');clearTimeout(deb);deb=setTimeout(check,400);}).observe(tgt,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style','data-fen']});
+  setInterval(check,2000);setTimeout(check,1500);
+}
 
 function boot(){createPanel();watchBoard();}
 document.readyState==='loading'?document.addEventListener('DOMContentLoaded',boot):setTimeout(boot,500);
